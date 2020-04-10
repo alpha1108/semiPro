@@ -39,7 +39,12 @@
 	function idCheck(){
 		var id = document.getElementById("id");
 		if(id.value != "admin"){
-			alert("[admin] 으로 접속해 주세요!");
+			if(confirm("아이디가 없으신가요? \n회원 가입 페이지로 넘어가시겠습니까?")){
+				window.location = "../Join/join.html";
+			}else{
+				alert("아이디를 옳바르게 입력하세요.");
+			}
+			//alert("[admin] 으로 접속해 주세요!");
 			event.preventDefault();
 		}
 	};
