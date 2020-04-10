@@ -1,0 +1,36 @@
+html, body, p{
+	margin: 0;
+	padding: 0;
+}
+header {
+	background-color: #3c3935;
+	height: 100px;
+	text-align: center;
+	margin-top: 10px;
+}
+.login {
+	float: right;
+}
+.logout {
+	float: right;
+}
+header div{
+	width: 80%;
+	margin-left: 10%;
+}
+header img{
+	width: 100px;
+	height: 100px;
+	border-radius: 50%
+}
+p {
+	font-family: monospace;
+	font-size: 15px;
+}
+section {
+	background-color: #948465;
+	height: 800px;
+}
+footer{
+	height: 100px;
+}
