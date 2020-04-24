@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link href="JoinCss/Join.css" rel="stylesheet" type="text/css">
+<link href="JoinCss/Join1.css" rel="stylesheet" type="text/css">
 
 <title>Insert title here</title>
 </head>
@@ -11,41 +11,173 @@
 	<div class="register">
 	<h1>회원가입</h1>
 		
-		<div class="label">아이디</div>
+		<div class="label">아이디 <span>(*)</span></div>
 		<div class="form">
 			<input type="text" id="userId" placeholder="아이디를 입력하세요.">
 		</div>
-		<div class="label">비밀번호</div>
+		<div class="label">비밀번호 <span>(*)</span></div>
 		<div class="form">
-			<input type="text" id="userPwd1" placeholder="비밀번호를 입력하세요.">
+			<input type="password" id="userPwd1" placeholder="비밀번호를 입력하세요.">
 		</div>
-		<div class="label">비밀번호 확인</div>
+		<div class="label">비밀번호 확인 <span>(*)</span></div>
 		<div class="form">
-			<input type="text" id="userPwd2" placeholder="비밀번호를 입력하세요.">
+			<input type="password" id="userPwd2" placeholder="비밀번호를 입력하세요.">
 		</div>
 		<div class="label">전화번호</div>
 		<div class="form">
 			<input type="text" id="userPhone" placeholder="전화번호를 입력하세요.">
 		</div>
-		<div class="label">비밀번호 확인</div>
+		<div class="label">이메일 <span>(*)</span></div>
 		<div class="form">
 			<input type="text" id="userEmail" placeholder="이메일를 입력하세요.">
 		</div>
-		
-		<button id="signUp">가입하기</button>
+		<div class="form1">
+			<input type="text" id="aaa" placeholder="인증번호를 입력하세요.">
+		</div>
+		<div class="form1">
+			<input type="button" value="인증코드 발송" id="aaa_btn" onclick="aaa_btn()">
+		</div>
+		<div class="form1">
+			<input type="button" value="확인창" id="check_btn" onclick="return check_btn()">
+		</div>
+		<button id="signUp" onclick="return func()">가입하기</button>
 	</div>
 </div>
 </body>
 <script type="text/javascript">
 	var signUp = document.getElementById("signUp");
 	
-	var func = function(){	
-		alert("회원가입을 축하합니다.")
+    document.addEventListener("DOMContentLoaded", function() {
+        if(window.sessionStorage) {
+            sessionStorage.clear();
+        }
+        else {
+            alert("세션을 사용할 수 없는 브라우저입니다.");
+        }
+    });
+    
+    function saveSessionStorage() {
+    	var value = document.getElementById("userId").value;
+    	sessionStorage.setItem("idKey",value);
+    	return true;
+    }
+	
+	function func() {
+
+		//아이디
+		var userId = document.getElementById("userId");
+		var userIdColor = document.getElementById("userId").className += " formInvalid";
+		if (userId.value == "") {
+			//userIdColor;
+			userId.setAttribute("placeholder", "아이디를 입력하세요.");
+			userId.focus();
+			return false;
+		}
+		if (userId.value.length <= 3){
+			alert("3자 이상 입력해주세요!");
+			userId.focus();
+			return false;
+		}
+		
+		//1차 비밀번호
+		var userPwd1 = document.getElementById("userPwd1");
+		var userPwd1Color = document.getElementById("userPwd1").className += " formInvalid";
+		if (userPwd1.value == ""){
+			userPwd1Color;
+			userPwd1.setAttribute("placeholder", "비밀번호를 입력하세요.");
+			userPwd1.focus();
+			return false;
+		}
+		if (userPwd1.value.length <= 4){
+			alert("5자 이상 입력해주세요!");
+			userPwd1.focus();
+			return false;
+		}
+		var eng = false;
+		var num = false
+		for(var i=0;i<userPwd1.value.length;i++){
+			var ch=userPwd1.value.charAt(i);
+			if (((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z'))){
+				eng = true;
+			}
+			if((ch >= 0 && ch <= 9)){
+				num = true;
+			}
+		}
+			// ctrl + shift + x => All전체 대문자변환
+			// ctrl + shift + c => All주석
+			if(eng==false || num==false){
+				alert("영문(대/소문자), 숫자를 혼합하여 입력해주세요.");
+				userPwd1.focus();
+				return false;
+			}
+		
+		//비밀번호 확인란
+		var userPwd2 = document.getElementById("userPwd2");
+		var userPwd2Color = document.getElementById("userPwd2").className += " formInvalid";
+		if (userPwd2.value == ""){
+			userPwd2Color;
+			userPwd2.setAttribute("placeholder", "비밀번호를 입력하세요.");
+			userPwd2.focus();
+			return false;
+		}
+		if(userPwd1.value != userPwd2.value){
+			alert("비밀번호가 맞지 않습니다. 다시 입력해주세요.");
+			userPwd2.focus();
+			return false;
+		}
+		
+		//이메일
+		var userEmail = document.getElementById("userEmail");
+		var userEmailColor = document.getElementById("userEmail").className += " formInvalid";
+		var n1=userEmail.value.indexOf("@");
+		var n2=userEmail.value.indexOf(".");
+		if (userEmail.value == ""){
+			userEmailColor;
+			userEmail.setAttribute("placeholder", "이메일을 입력하세요.");
+			userEmail.focus();
+			return false;
+		}
+		if(n1==-1 || n2==-1){
+			alert("'@' 과 '.' 을 함께 입력하세요.");
+			userEmail.focus();
+			return false;
+		}
+		
+		var aaa = document.getElementById("aaa");
+		if(aaa.value != null){
+			alert("인증번호를 입력하세요.");
+			aaa.focus();
+			return false;
+		}
+	
+		//아이디 session에 담기
+		saveSessionStorage();
+		var idCheck = sessionStorage.getItem("idKey");
+		console.log("idCheck:" + idCheck);
+		alert(idCheck + " 님의 회원가입을 축하합니다.");
+		console.log(sessionStorage);
 		location.href = "../Login/Login.html";
+		return true;
 	}
-	
-	
-	signUp.addEventListener('click',func);
+	function aaa_btn(){
+		var url = "popup.html";
+		var name = "popup name";
+		var option = "width = 500, height = 500, top = 100, left = 200, location = no";
+		window.open(url,name,option);
+	}
+
+	//인증번호 세션에 있는값 불러오기
+	function check_btn(){
+		var aaa = document.getElementById("aaa");
+		var aaaKey = localStorage.aaaKey;
+		console.log("aaaKey:"+ localStorage.getItem(aaaKey));
+		console.log("aaaKey:" + aaaKey);
+		if(aaa.value != aaaKey){
+			alert("인증번호를 다시 입력해주세요.");
+			return false;
+		}
+	}
 	
 </script>
 </html>
